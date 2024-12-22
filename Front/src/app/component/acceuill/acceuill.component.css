@@ -1,15 +1,42 @@
 .ACCEUIL{
+    color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
     margin-left: 30px;
     border-radius: 10%;
-    width: 45%;
+    width: 100%;
     height: 85.2vh;
-    background-color: aqua;
-    transition: 1s;
+    /* transition: 1s; */
 }
 
-.ACCEUIL:hover{
+/* .ACCEUIL:hover{
     transform: scale(1.025);
+} */
+
+h1{
+    /* margin-top: 10%; */
+    font-size: 4rem;
+    margin-left: 10%;
+}
+
+h2{
+    font-size: 1.5rem;
+    margin-left: 9%;
+}
+
+span{
+    color: rgb(97, 255, 83);
+}
+
+.images{
+    display: flex;
+    justify-content: space-around;
+}
+
+.images img{
+    width: 120%;
+    height: 70%;
+    border-radius: 15%;
+    margin-top: 5%;
+    margin-left: 30%;
+    margin-bottom: 5%;
 }
