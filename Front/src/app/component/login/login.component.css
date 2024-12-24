@@ -5,7 +5,7 @@
     box-sizing: border-box;
     font-family: "Josefin Sans", sans-serif;
     font-size: 22px;
-    color: white;
+    color: black;
 }
 
 .login{
@@ -21,7 +21,7 @@
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    padding: 40px;
+    padding: 35px;
     height: max-content;
     max-width: 400px;
     width: 100%;
@@ -52,7 +52,7 @@
   }
   
   /* Input Fields */
-  input[type="text"],
+  input[type="email"],
   input[type="password"] {
     width: 100%;
     padding: 10px;

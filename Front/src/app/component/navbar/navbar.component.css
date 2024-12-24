@@ -16,7 +16,7 @@
 
 span{
     font-size: xx-large;   
-    color: rgb(97, 255, 83);
+    color: rgb(255, 174, 24);
 }
 
 h1 a{
@@ -48,11 +48,11 @@ nav ul li a{
 }
 
 nav ul li a:hover{
-    color: rgb(28, 123, 1);
+    color: rgb(255, 174, 24);
 }
 
 nav ul li #Sign_butt{
-    background-color: rgb(28, 123, 1);
+    background-color: rgb(255, 174, 24);
     padding: 0.5rem 1.5rem;
     border-radius: 10px;
     transition: 0.8s;

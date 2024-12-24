@@ -3,8 +3,8 @@
         <h2>Login</h2>
         <form action="/login" method="post">
           <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <label for="username">Email:</label>
+            <input type="email" id="Email" name="Email" [required]="true">
           </div>
           <div class="form-group">
             <label for="password">Password:</label>
@@ -13,6 +13,9 @@
           <div class="form-group">
             <input type="submit" value="Login">
           </div>
+          <!-- <div class="Auth_google">
+            <input type="submit" src="google_image.png">
+          </div> -->
         </form>
       </div>
 </section>
