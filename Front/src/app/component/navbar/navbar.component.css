@@ -3,12 +3,8 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Josefin Sans", sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     color: white;
-}
-
-h1{
-    font-size: xx-large;
 }
 
 .Navbar{
@@ -21,6 +17,11 @@ h1{
 span{
     font-size: xx-large;   
     color: rgb(97, 255, 83);
+}
+
+h1 a{
+    font-size: xx-large;
+    text-decoration: none;
 }
 
 nav{
@@ -58,6 +59,7 @@ nav ul li #Sign_butt{
 }
 
 nav ul li #Sign_butt:hover{
+    cursor: pointer;
     transform: scale(1.1);
 }
 
