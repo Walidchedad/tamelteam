@@ -15,18 +15,18 @@
 }
 
 span {
-    font-size: xx-large;   
+    font-size: 35px;   
     color: #3dbfa7;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-span:hover{
+h1:hover span{
     transform: scale(1.1);
     color: white;
 }
 
 h1 a {
-    font-size: xx-large;
+    font-size: 45px;
     text-decoration: none;
     color: white;
     transition: transform 0.3s ease, color 0.3s ease;
