@@ -10,5 +10,4 @@ import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './acceuill.component.css'
 })
 export class AcceuillComponent {
-
 }

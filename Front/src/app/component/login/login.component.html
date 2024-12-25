@@ -1,22 +1,60 @@
 <section class="login">
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="/login" method="post">
-          <div class="form-group">
-            <label for="username">Email:</label>
-            <input type="email" id="Email" name="Email" [required]="true">
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-          </div>
-          <div class="form-group">
-            <input type="submit" value="Login">
-          </div>
-          <!-- <div class="Auth_google">
-            <input type="submit" src="google_image.png">
-          </div> -->
-        </form>
+  <div class="login-container">
+    <div class="form-tabs">
+      <button class="tab-btn" [class.active]="isLoginActive" (click)="toggleTab(true)">Login</button>
+      <button class="tab-btn" [class.active]="!isLoginActive" (click)="toggleTab(false)">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" *ngIf="isLoginActive" (ngSubmit)="onSubmitLogin()">
+      <h2>Login</h2>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" required />
       </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" required />
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Login" />
+      </div>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form [formGroup]="signUpForm" *ngIf="!isLoginActive" (ngSubmit)="onSubmitSignUp()">
+      <h2>Sign Up</h2>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" formControlName="firstName" required />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" formControlName="lastName" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" required />
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" formControlName="dob" required />
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" formControlName="gender" required>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Sign Up" />
+      </div>
+    </form>
+  </div>
 </section>
-<router-outlet />
+<router-outlet/>
