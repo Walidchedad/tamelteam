@@ -6,7 +6,9 @@ import { LoginComponent } from './component/login/login.component';
 export const routes: Routes = [
     {path:'Login', component: LoginComponent},
     {path:'',component:NavbarComponent,children:[
-        {path:'Acceuil',component:AcceuillComponent},
+        {path:'',component:AcceuillComponent,children:[
+            {path:'Login',component:LoginComponent},
+        ]},
         {path:'',component:AcceuillComponent},
         {path:'Login',component:LoginComponent}
     ]},
