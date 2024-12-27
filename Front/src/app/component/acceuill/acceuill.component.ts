@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './acceuill.component.html',
   styleUrls: ['./acceuill.component.css',]
 })
+
 export class AcceuillComponent{
   menuOpen: boolean = false;
   constructor(private route : ActivatedRoute,private router: Router){}

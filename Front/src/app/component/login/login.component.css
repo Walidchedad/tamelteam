@@ -211,7 +211,7 @@ input[type="submit"]:hover {
   }
 }
 
-.login-container:hover {
+.login-container {
   animation: float 2s ease-in-out infinite;
 }
 
