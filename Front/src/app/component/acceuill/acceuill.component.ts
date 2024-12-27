@@ -23,7 +23,7 @@ export class AcceuillComponent{
     // Masquer l'alerte après 5 secondes
     setTimeout(() => {
       this.router.navigate(['Login']);
-    }, 1500);
+    }, 2500);
   }
   // Fonction pour gérer le clic sur le bouton
   toggleMenu() {
