@@ -1,0 +1,196 @@
+.all{
+  width: 100%;
+  height: max-content;
+  background: linear-gradient(180deg, rgb(22, 22, 22), #00fffb4a,rgb(22, 22, 22));
+  overflow: hidden; /* Dégradé plus profond */
+  position: relative;
+}
+
+@keyframes fadeSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Conteneur principal */
+  .voting-container {
+    animation: fadeSlideIn 1s ease-out;
+    background: linear-gradient(135deg, #2a2a2a, #4f4f4f); /* Fond sombre mais doux */
+    padding: 40px;
+    border-radius: 15px;
+    color: #e0e0e0; /* Texte clair mais pas trop éclatant */
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Titre principal */
+  .voting-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: white; /* Bleu clair pour un contraste agréable */
+    text-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Champs d'entrée */
+  .add-survey input {
+    width: 80%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background: #555555; /* Fond sombre avec un léger contraste */
+    color: #f4f4f4; /* Texte clair */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out, background 0.3s ease;
+  }
+  
+  .add-survey input:focus {
+    background: #666666; /* Légère variation au focus */
+    box-shadow: 0 4px 10px rgba(76, 161, 175, 0.5);
+  }
+  
+  /* Boutons */
+  .action-btn {
+    background: #4CAF50; /* Vert vibrant et moderne */
+    color: #fff;
+    padding: 14px 28px;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 128, 0, 0.2); /* Ombre subtile */
+  }
+  
+  .action-btn:hover {
+    background: #45a049; /* Changement de couleur pour le survol */
+    transform: translateY(-4px); /* Léger déplacement lors du survol */
+    box-shadow: 0 10px 20px rgba(0, 128, 0, 0.3); /* Ombre plus marquée */
+    border: 2px solid #4CAF50; /* Bordure verte au survol */
+  }
+  
+  .action-btn:focus {
+    outline: none;
+    border: 2px solid #3e8e41; /* Bordure plus foncée au focus */
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); /* Ombre plus forte au focus */
+  }
+  
+  /* Liste des options */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul li {
+    background: #4a4a4a; /* Fond gris foncé pour les items */
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Nécessaire pour les boutons X */
+  }
+  
+  ul li:hover {
+    background: (135deg, #2a2a2a, #4f4f4f); /* Couleur d'accentuation pour l'effet hover */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(76, 161, 175, 0.5);
+  }
+  
+  .remove-option-btn {
+    background: rgb(230, 74, 74);
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    border: none;
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .remove-option-btn:hover {
+    color: wheat;
+  }
+  
+  /* Liste des sondages */
+  .survey-list .survey-item {
+    background: #3b3b3b; /* Gris foncé pour les sondages */
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    color: white;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .survey-list .survey-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(76, 161, 175, 0.5);
+  }
+  
+  .edit-btn, .delete-btn {
+    margin-left: 20px;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+    border: 2px solid #61dafb;
+    padding: 8px 16px;
+    border-radius: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .edit-btn:hover{
+    background: rgba(78, 180, 194, 0.773);
+    border: none;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(97, 223, 251, 0.3);
+  }
+  
+  .delete-btn:hover {
+    background: rgb(230, 74, 74);
+    border: none;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(97, 223, 251, 0.3);
+  }
+  
+  .edit-btn:focus, .delete-btn:focus {
+    outline: none;
+    border-color: #3e8e41;
+    box-shadow: 0 0 10px rgb(72, 174, 208);
+  }
+
+  /* Disabled options */
+.vote-container button[disabled] {
+  background: #777777; /* A muted gray to indicate the option is disabled */
+  cursor: not-allowed; /* Show a 'no entry' cursor */
+  opacity: 0.6; /* Make the option look faded */
+}
+
+.vote-container button[disabled]:hover {
+  transform: none; /* Disable the hover effect when the button is disabled */
+  box-shadow: none; /* Remove shadow on hover */
+}
+
+  

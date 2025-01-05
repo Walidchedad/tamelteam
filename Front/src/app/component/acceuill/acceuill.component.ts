@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-acceuill',
   imports: [RouterModule, RouterOutlet, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './acceuill.component.html',

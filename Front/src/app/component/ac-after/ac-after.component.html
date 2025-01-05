@@ -1,1 +1,12 @@
-<p>ac-after works!</p>
+<div id="app">
+    <div class="hero">
+        <h1>Bienvenue, {{ username }} !</h1>
+        <h2>Tu peux accéder à vos fonctionnalités maintenant</h2>
+        <div class="buttons">
+            <button id="button" (click)="navigateTo('*/vote')" type="button">Ajouter vos sendages</button>
+            <button id="button" (click)="navigateTo('*/Sendage')">Ajouter vos votes</button>
+        </div>
+    </div>
+  </div>
+  <router-outlet/>
+  

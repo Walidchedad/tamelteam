@@ -1,41 +1,42 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// Enable CORS for all routes
+app.use(cors());
 
-var app = express();
+// Alternatively, if you want to restrict CORS to a specific origin
+// app.use(cors({
+//   origin: 'http://localhost:4200'  // Allow only this origin
+// }));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
+// Middleware to parse JSON data
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// Sample endpoint for user sign up
+app.post('/signup', (req, res) => {
+  const { email, password, firstName, lastName, dob, gender } = req.body;
+  console.log('Sign Up Data:', { email, password, firstName, lastName, dob, gender });
+  
+  // Here you would typically save the data in your database
+  
+  // Send a response back
+  res.status(200).json({ message: 'Sign up successful' });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// Sample endpoint for login
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  console.log('Login Data:', { email, password });
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // Here you would validate the login credentials against the database
+  
+  // Send a response back
+  res.status(200).json({ message: 'Login successful' });
 });
 
-module.exports = app;
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

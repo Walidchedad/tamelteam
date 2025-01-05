@@ -1,0 +1,25 @@
+<section class="Navbar">
+    <div>
+        <nav>
+            <h1><a [routerLink] = "['Acceuil']">VOTING<span> DAIA</span></a></h1>
+            <ul>
+                <li>
+                    <a [routerLink] = "['Acc_after_login']">Home</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Voter</a>
+                </li>
+                <li>
+                    <button id="Sign_butt" (click)="logout()">Déconnexion</button>
+                    <img src="" alt="icon">
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<router-outlet />
+
+

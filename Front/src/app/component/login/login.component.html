@@ -1,8 +1,23 @@
 <section class="login">
   <div class="login-container">
     <div class="form-tabs">
-      <button class="tab-btn" [class.active]="isLoginActive" (click)="toggleTab(true)">Login</button>
-      <button class="tab-btn" [class.active]="!isLoginActive" (click)="toggleTab(false)">Sign Up</button>
+      <button
+        class="tab-btn"
+        [class.active]="isLoginActive"
+        (click)="toggleTab(true)"
+      >
+        Login
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="!isLoginActive"
+        (click)="toggleTab(false)"
+      >
+        Sign Up
+      </button>
+    </div>
+    <div *ngIf="showAlert" class="alert">
+      <p>{{ alertMessage }}</p>
     </div>
 
     <!-- Login Form -->
@@ -17,7 +32,7 @@
         <input type="password" id="password" formControlName="password" required />
       </div>
       <div class="form-group">
-        <input type="submit" value="Login" />
+        <input type="submit" value="Login" [disabled]="!loginForm.valid" />
       </div>
     </form>
 
@@ -52,9 +67,9 @@
         </select>
       </div>
       <div class="form-group">
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value="Sign Up" [disabled]="!signUpForm.valid" />
       </div>
     </form>
   </div>
 </section>
-<router-outlet/>
+<router-outlet></router-outlet>

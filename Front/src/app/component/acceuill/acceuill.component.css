@@ -17,29 +17,6 @@
   position: relative;
 }
 
-/* Arrière-plan animé */
-#app::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, #3dbfa7 10%, transparent 70%);
-  animation: rotate 10s linear infinite;
-  opacity: 0.2;
-  z-index: -1;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Section héro */
 .hero {
   position: relative;
