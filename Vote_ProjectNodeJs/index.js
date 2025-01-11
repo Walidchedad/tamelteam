@@ -92,22 +92,57 @@ app.post('/login', (req, res) => {
 
   // Route to create a new poll
   app.post('/polls', (req, res) => {
-    const { title, options } = req.body;
-    const query = 'INSERT INTO polls (title, options) VALUES (?, ?)';
-    db.query(query, [title, JSON.stringify(options)], (err, result) => {
-      if (err) throw err;
-      res.status(201).json({ message: 'Poll created successfully', pollId: result.insertId });
+    const { title, options, data_fin, type, creator_email, start_date } = req.body;
+  
+    // Validate that data_fin is provided and is a valid future date
+    const startDate = new Date(req.body.start_date);
+    const endDate = new Date(req.body.data_fin);
+    const currentDate = new Date();
+  
+    if (isNaN(endDate.getTime()) || endDate <= currentDate) {
+      return res.status(400).json({ message: 'La date de fin doit être dans le futur.' });
+    }
+  
+    // Validate that creator_email is provided
+    if (!creator_email || !/\S+@\S+\.\S+/.test(creator_email)) {
+      return res.status(400).json({ message: 'Un email valide est requis pour le créateur.' });
+    }
+  
+    // Insert the survey into the database
+    const query = `
+  INSERT INTO polls (title, options, data_fin, type, creator_email, start_date)
+  VALUES (?, ?, ?, ?, ?, ?)
+`;
+
+db.query(
+  query,
+  [title, JSON.stringify(options), endDate, type, creator_email, startDate],
+  (err, result) => {
+    if (err) {
+      console.error('Erreur lors de la création du sondage :', err);
+      return res.status(500).json({ message: 'Erreur serveur lors de la création du sondage.' });
+    }
+    res.status(201).json({
+      message: 'Sondage créé avec succès',
+      pollId: result.insertId,
     });
+  }
+);
   });
+  
   
   // Get all surveys (polls)
   app.get('/polls', (req, res) => {
     const query = 'SELECT * FROM polls';
-    db.query(query, (err, results) => {
-      if (err) throw err;
-      res.status(200).json(results);
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error('Error fetching polls:', err);
+        return res.status(500).json({ message: 'Error fetching polls' });
+      }
+      res.status(200).json(result);
     });
   });
+  
   
   // Edit a poll (update title or options)
   app.put('/polls/:id', (req, res) => {
@@ -133,7 +168,86 @@ app.post('/login', (req, res) => {
   // Voting logic (record the vote)
   // Route de vote
 // Route to handle voting
+// Voting logic (record the vote)
+// Route to handle voting
 app.post('/polls/:id/vote', (req, res) => {
+  const surveyId = req.params.id;  // Get the survey ID (poll ID)
+  const { option, email } = req.body;  // Get the selected option and the user's email
+
+  if (!email || !option) {
+    return res.status(400).json({ message: 'Email and option are required.' });
+  }
+
+  // Retrieve the survey details (title, type, creator_email, data_fin)
+  const surveyQuery = 'SELECT type, creator_email, data_fin FROM polls WHERE id = ?';
+  db.query(surveyQuery, [surveyId], (err, surveyResult) => {
+    if (err) {
+      console.error('Error retrieving poll:', err);
+      return res.status(500).json({ message: 'Error retrieving poll.' });
+    }
+
+    if (surveyResult.length === 0) {
+      return res.status(404).json({ message: 'Poll not found.' });
+    }
+
+    const surveyType = surveyResult[0].type;
+    const creatorEmail = surveyResult[0].creator_email;  // Poll creator's email
+    const pollEndDate = new Date(surveyResult[0].data_fin);  // Poll end date
+
+    // Check if the poll has expired (data_fin < current date)
+    if (new Date() > pollEndDate) {
+      return res.status(400).json({ message: 'The poll has ended. You can no longer vote.' });
+    }
+
+    // Check if the user is the creator of the poll
+    if (email === creatorEmail) {
+      return res.status(400).json({ message: 'You cannot vote in your own poll.' });
+    }
+
+    // Check if the user has already voted
+    const checkVoteQuery = 'SELECT * FROM votes WHERE poll_id = ? AND email = ?';
+    db.query(checkVoteQuery, [surveyId, email], (err, result) => {
+      if (err) {
+        console.error('Error checking previous votes:', err);
+        return res.status(500).json({ message: 'Error checking previous votes.' });
+      }
+
+      // If the poll is of type "Vote", prevent the user from changing their vote
+      if (surveyType === 'Vote' && result.length > 0) {
+        return res.status(400).json({ message: 'You cannot change your vote for this poll.' });
+      }
+
+      // If the user has already voted in a "Survey" type poll, allow modification
+      if (result.length > 0 && surveyType === 'Sondage') {
+        // Update the existing vote
+        const updateVoteQuery = 'UPDATE votes SET option = ? WHERE poll_id = ? AND email = ?';
+        db.query(updateVoteQuery, [option, surveyId, email], (err, updateResult) => {
+          if (err) {
+            console.error('Error updating vote:', err);
+            return res.status(500).json({ message: 'Error updating your vote.' });
+          }
+
+          res.status(200).json({ message: 'Vote updated successfully.' });
+        });
+      } else {
+        // If the user has not voted yet, insert the new vote
+        const insertVoteQuery = 'INSERT INTO votes (poll_id, option, email) VALUES (?, ?, ?)';
+        db.query(insertVoteQuery, [surveyId, option, email], (err, insertResult) => {
+          if (err) {
+            console.error('Error recording vote:', err);
+            return res.status(500).json({ message: 'Error recording your vote.' });
+          }
+
+          res.status(200).json({ message: 'Vote recorded successfully.' });
+        });
+      }
+    });
+  });
+});
+
+
+
+app.put('/polls/:id/vote', (req, res) => {
   const surveyId = req.params.id;  // Get the survey ID (poll ID)
   const { option, email } = req.body;  // Get the selected option and the user's email
 
@@ -141,57 +255,83 @@ app.post('/polls/:id/vote', (req, res) => {
     return res.status(400).json({ message: 'Email and option are required' });
   }
 
-  // Check if the user has already voted for this poll
-  const checkQuery = 'SELECT * FROM votes WHERE poll_id = ? AND email = ?';
-  db.query(checkQuery, [surveyId, email], (err, result) => {
+  // Update the user's vote if it already exists
+  const updateQuery = 'UPDATE votes SET option = ? WHERE poll_id = ? AND email = ?';
+  db.query(updateQuery, [option, surveyId, email], (err, result) => {
     if (err) {
-      console.error('Error checking previous votes:', err);
-      return res.status(500).json({ message: 'Error checking previous votes' });
+      console.error('Error updating vote:', err);
+      return res.status(500).json({ message: 'Error updating your vote' });
     }
 
-    if (result.length > 0) {
-      return res.status(400).json({ message: 'You have already voted for this poll' });
+    if (result.affectedRows > 0) {
+      return res.status(200).json({ message: 'Vote updated successfully' });
+    } else {
+      return res.status(400).json({ message: 'No previous vote found to update' });
+    }
+  });
+});
+
+app.get('/polls/:id', (req, res) => {
+  const pollId = req.params.id; // Extract the poll ID from the URL
+  const query = 'SELECT * FROM polls WHERE id = ?';
+
+  db.query(query, [pollId], (err, result) => {
+    if (err) {
+      console.error('Error fetching poll:', err);
+      return res.status(500).json({ message: 'Error fetching poll' });
     }
 
-    // Insert the vote into the database
-    const insertQuery = 'INSERT INTO votes (poll_id, option, email) VALUES (?, ?, ?)';
-    db.query(insertQuery, [surveyId, option, email], (err, result) => {
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Poll not found' });
+    }
+
+    const poll = result[0];
+    // Parse the options from JSON string if necessary
+    poll.options = JSON.parse(poll.options);
+    res.status(200).json(poll);
+  });
+});
+
+// Route to get poll statistics (including percentages of each option)
+app.get('/polls/:id/statistics', (req, res) => {
+  const pollId = req.params.id;
+
+  // Get the total number of votes for the poll
+  const totalVotesQuery = 'SELECT COUNT(*) AS totalVotes FROM votes WHERE poll_id = ?';
+  db.query(totalVotesQuery, [pollId], (err, totalResult) => {
+    if (err) {
+      console.error('Error retrieving total votes:', err);
+      return res.status(500).json({ message: 'Error retrieving total votes.' });
+    }
+
+    const totalVotes = totalResult[0].totalVotes;
+
+    // Get the vote count for each option
+    const optionsVotesQuery = 'SELECT option, COUNT(*) AS voteCount FROM votes WHERE poll_id = ? GROUP BY option';
+    db.query(optionsVotesQuery, [pollId], (err, optionsResult) => {
       if (err) {
-        console.error('Error saving vote:', err);
-        return res.status(500).json({ message: 'Error saving your vote' });
+        console.error('Error retrieving vote counts:', err);
+        return res.status(500).json({ message: 'Error retrieving vote counts.' });
       }
 
-      res.status(200).json({ message: 'Vote recorded successfully' });
+      // Calculate the percentage for each option
+      const pollStatistics = {};
+      optionsResult.forEach(optionData => {
+        const percentage = ((optionData.voteCount / totalVotes) * 100).toFixed(2);
+        pollStatistics[optionData.option] = {
+          voteCount: optionData.voteCount,
+          percentage: percentage
+        };
+      });
+
+      res.status(200).json(pollStatistics);
     });
   });
 });
 
-// Endpoint to check if the user has already voted for a specific poll
-app.get('/polls/:id/user-vote-status', (req, res) => {
-  const { id } = req.params; // Poll ID
-  const { email } = req.query; // User email
+// Record a vote
+// Record a vote for a specific poll option
 
-  if (!email) {
-    return res.status(400).json({ message: 'Email is required' });
-  }
-
-  // Check if the user has voted for this poll
-  const query = 'SELECT * FROM votes WHERE poll_id = ? AND email = ?';
-  db.query(query, [id, email], (err, result) => {
-    if (err) {
-      console.error('Error checking vote status:', err);
-      return res.status(500).json({ message: 'Error checking vote status' });
-    }
-
-    // If the user has already voted, return true
-    const hasVoted = result.length > 0;
-    res.status(200).json({ hasVoted });
-  });
-});
-
-
-  
-// Handle preflight requests for all routes
 app.options('*', cors());
 
 // Démarrer le serveur

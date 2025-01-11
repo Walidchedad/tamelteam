@@ -1,0 +1,57 @@
+<div class="poll-container">
+  <div class="card">
+    <!-- Poll Details -->
+    <div *ngIf="poll">
+      <h1>{{ activeSurvey?.title }}</h1>
+
+      <!-- Alert Message -->
+      <div *ngIf="alertMessage" [ngClass]="'alert ' + alertType">
+        {{ alertMessage }}
+      </div>
+
+      <!-- Message for the creator -->
+      <div *ngIf="isCreator">
+        <p class="alert alert-warning">Vous êtes le créateur de ce sondage et ne pouvez pas voter.</p>
+      </div>
+
+      <!-- Voting Options -->
+      <div *ngIf="!isCreator && !isPollExpired && activeSurvey">
+        <div class="voting-options">
+          <button
+            *ngFor="let option of activeSurvey?.options"
+            (click)="castVote(option)"
+            [disabled]="userVoted && activeSurvey?.type === 'Vote' || selectedOption === option"
+          >
+            {{ option }}
+          </button>
+          <div class="percentage-bar-container" *ngFor="let option of activeSurvey?.options">
+            <div class="percentage-bar"
+                 [ngStyle]="{
+                   'width': pollStatistics[option]?.percentage + '%',
+                   'background-color': '#4CAF50'
+                 }">
+            </div>
+            <span>{{option}}: {{ pollStatistics[option]?.percentage || 0 }}%</span>
+          </div>              
+        </div>
+        <p *ngIf="userVoted" class="alert alert-success">Vous avez déjà voté.</p>
+      </div>
+
+      <!-- Poll Expired Message -->
+      <div *ngIf="isPollExpired">
+        <p class="alert alert-warning">Le sondage est terminé, vous ne pouvez plus voter.</p>
+      </div>
+      <!-- End Voting Button -->
+      <button (click)="endVoting()" [routerLink]="['/Voter']" class="action-btn">
+        Terminer le Vote
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="!poll">
+      <p>Loading poll details...</p>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

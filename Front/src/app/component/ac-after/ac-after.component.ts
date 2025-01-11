@@ -25,7 +25,7 @@ export class AcAfterComponent implements OnInit {
     this.username = this.authService.getUser();
   }
 
-  navigateTo(page: any): void {
+  navigateToVote(page: any): void {
     this.router.navigate(['Sendage']); // Naviguer vers une autre page comme /profile ou /settings.
   }
 

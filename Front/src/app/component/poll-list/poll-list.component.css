@@ -1,0 +1,280 @@
+/* Style général de la page */
+.poll-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #121212; /* Fond sombre */
+  color: #e0e0e0; /* Texte clair */
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Titre principal */
+.poll-list h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+}
+
+/* Barre de recherche */
+/* Container pour la recherche et le bouton */
+/* Container de recherche */
+.search-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* Barre de recherche */
+.search-bar {
+  background-color: #2c2f3f; /* Fond sombre */
+  color: #a8d5ba; /* Vert pâle pour le texte */
+  border: 1px solid #3b5f4f; /* Bordure verte douce */
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  animation: slideIn 0.5s ease-out; /* Animation d'apparition de la barre */
+}
+
+/* Animation d'apparition (entrée) de la barre de recherche */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Focus sur la barre de recherche */
+.search-bar:focus {
+  background-color: #383f4d; /* Fond plus sombre */
+  border-color: #4caf50; /* Bordure verte vive au focus */
+  outline: none;
+  transform: scale(1.05); /* Légère augmentation de la taille au focus */
+  animation: focusAnimation 0.3s ease-in-out; /* Animation de mise en valeur */
+}
+
+/* Animation de focus de la barre de recherche */
+@keyframes focusAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05); /* Augmenter légèrement la taille */
+  }
+}
+
+/* Bouton de recherche */
+.search-btn {
+  background-color: #4caf50; /* Vert vif */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 5px;
+  margin-left: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 1.5s infinite; /* Animation de pulsation */
+}
+
+/* Animation de pulsation (pulse) pour le bouton */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05); /* Légère augmentation de la taille */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Hover pour le bouton de recherche */
+.search-btn:hover {
+  background-color: #388e3c; /* Vert foncé au survol */
+  transform: translateY(-5px); /* Effet de soulèvement au survol */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre douce au survol */
+}
+
+/* Focus ou active pour le bouton de recherche */
+.search-btn:focus,
+.search-btn:active {
+  outline: none;
+  box-shadow: 0 0 5px #4caf50; /* Lueur verte autour du bouton */
+  transform: translateY(2px); /* Un petit effet de profondeur lorsqu'on clique */
+}
+
+
+/* Bouton "Filtrer" */
+.filter-dropdown button {
+  background: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.filter-dropdown button:hover {
+  background: #388e3c;
+  transform: translateY(-3px);
+}
+
+.filter-dropdown button:focus {
+  outline: none;
+  box-shadow: 0 0 10px #4caf50;
+}
+
+/* Animation du menu déroulant des filtres */
+.filter-dropdown .filter-buttons {
+  display: none;
+  flex-direction: column;
+  background-color: #2c2c3a;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.filter-dropdown.show .filter-buttons {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.filter-buttons button {
+  background: #3c3c4d;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.filter-buttons button:hover {
+  background: #ff9800;
+  transform: translateY(-3px);
+}
+
+/* Animation de la carte de chaque sondage */
+.poll-item {
+  background: #1e1e2f;
+  color: #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.poll-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+}
+
+.poll-item h2 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  color: #ff9800;
+}
+
+.poll-item p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #b0b0b0;
+}
+
+.poll-item button {
+  background: #4caf50;
+  color: #ffffff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.poll-item button:hover {
+  background: #388e3c;
+  transform: translateY(-3px);
+}
+
+/* Style Responsive */
+@media (max-width: 768px) {
+  .search-bar {
+    width: 90%;
+  }
+
+  .poll-item {
+    padding: 15px;
+  }
+
+  .poll-item h2 {
+    font-size: 1.3rem;
+  }
+
+  .poll-item p {
+    font-size: 0.9rem;
+  }
+
+  .poll-item button {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
+}
+
+.poll-status {
+  margin-top: 10px;
+}
+
+.status-tag {
+  padding: 10px;
+  width: 15%;
+  position: relative;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pending {
+  background-color: #ffeb3b; /* Yellow for pending */
+}
+
+.active {
+  background-color: #4caf50; /* Green for active */
+}
+
+.closed {
+  background-color: #f44336; /* Red for closed */
+}

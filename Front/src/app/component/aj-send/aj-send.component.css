@@ -193,4 +193,43 @@
   box-shadow: none; /* Remove shadow on hover */
 }
 
+/* Base style for the select element */
+.magnetic-dropdown {
+  position: relative;
+  background-color: #686868;
+  border: 2px solid #63636300;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #ffffff;
+  width: 200px;
+  cursor: pointer;
+  overflow: hidden;
+  appearance: none;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect for the select box */
+.magnetic-dropdown:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.03);
+}
+
+/* Option styling */
+.magnetic-dropdown option {
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Highlighting on hover */
+.magnetic-dropdown option:hover {
+  background-color: #e2e6ea;
+  color: #007BFF;
+  transform: translateX(10px) scale(1.05);
+}
+
   

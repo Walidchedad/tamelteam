@@ -1,0 +1,58 @@
+<div class="poll-list">
+  <h1>All Polls</h1>
+
+  <!-- Barre de recherche -->
+  <div class="search-container">
+    <input
+    type="text"
+    placeholder="Rechercher un sondage"
+    [(ngModel)]="searchQuery"
+    (input)="filterPolls()"
+    class="search-bar"
+    />
+    <button (click)="searchPolls()" class="search-btn">Rechercher</button>
+   </div>
+  
+
+  <!-- Boutons de filtre -->
+  <div class="filter-dropdown" [class.show]="isFilterDropdownOpen">
+    <button (click)="toggleFilterDropdown()">Filtrer</button>
+    <div class="filter-buttons">
+      <button (click)="filterByStatus('all')">Tous</button>
+      <button (click)="filterByStatus('active')">Actifs</button>
+      <button (click)="filterByStatus('pending')">En attente</button>
+      <button (click)="filterByStatus('closed')">Close</button>
+    </div>
+  </div>
+
+  <!-- Liste des sondages filtrés -->
+  <div *ngFor="let poll of filteredPolls" class="poll-item">
+    <h2>{{ poll.title }}</h2>
+    <p>Type: {{ poll.type }}</p>
+    
+    <!-- Display the status of the poll -->
+    <div class="poll-status">
+      <span
+        *ngIf="isPollClosed(poll.data_fin)"
+        class="status-tag closed"
+        >Close</span>
+
+      <span
+        *ngIf="isPollPending(poll.start_date)"
+        class="status-tag pending"
+        >En attente</span
+      >
+      <span
+        *ngIf="isPollActive(poll.start_date, poll.data_fin)"
+        class="status-tag active"
+        >Actif</span
+      >
+    </div>
+  
+    <button (click)="viewPoll(poll.id)">View Poll</button>
+  </div>
+  
+  
+</div>
+
+<router-outlet></router-outlet>

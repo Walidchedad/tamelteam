@@ -1,49 +1,61 @@
 <section class="all">
   <div class="voting-container">
-    <div *ngIf="!voteMode">
-      <h1>Créer un vote</h1>
-  
-      <div class="add-survey">
-        <input [(ngModel)]="newSurveyTitle" placeholder="Titre du vote" />
-        <div class="options-input">
-          <input [(ngModel)]="newOption" placeholder="Nouvelle option" />
-          <button (click)="addOption()" class="action-btn">Ajouter Option</button>
-        </div>
-        <ul>
-          <li *ngFor="let option of newSurveyOptions; let i = index">
-            {{ option }}
-            <button (click)="removeOption(i)" class="remove-option-btn">X</button>
-          </li>
-        </ul>
-        <button (click)="createSurvey()" class="action-btn">Créer vote</button>
-      </div>
-  
-      <div class="survey-list">
-        <h2>Votes Disponibles</h2>
-        <div *ngFor="let survey of surveys" class="survey-item">
-          <p>{{ survey.title }}</p>
-          <button (click)="startVoting(survey)" class="action-btn">Voter</button>
-          <button (click)="editSurvey(survey)" class="edit-btn">Modifier</button>
-          <button (click)="deleteSurvey(survey)" class="delete-btn">Supprimer</button>
-        </div>
-      </div>
-    </div>
 
-    <div *ngIf="voteMode" class="vote-container">
-      <h1>{{ activeSurvey?.title }}</h1>
-      <div class="voting-options">
-        <button
-          *ngFor="let option of activeSurvey?.options"
-          (click)="castVote(option)"
-          [disabled]="userVoted"
-          class="action-btn"
-        >
-          {{ option }}
-        </button>
-      </div>
-      <button (click)="endVoting()" class="action-btn">Terminer le Vote</button>
+    <div *ngIf="!voteMode">
+  <h1>Créer un vote</h1>
+
+  <div class="add-survey">
+
+    <select [(ngModel)]="newSurveyType" class="magnetic-dropdown">
+      <option value="Vote">Vote</option>
+      <option value="Sondage">Sondage</option>
+    </select>
+    
+
+    <!-- Survey Title -->
+    <input [(ngModel)]="newSurveyTitle" placeholder="Titre du vote" />
+
+    <!-- Options Input -->
+    <div class="options-input">
+      <input [(ngModel)]="newOption" placeholder="Nouvelle option" />
+      <button (click)="addOption()" class="action-btn">Ajouter Option</button>
+    </div>
+    <ul>
+      <li *ngFor="let option of newSurveyOptions; let i = index">
+        {{ option }}
+        <button (click)="removeOption(i)" class="remove-option-btn">X</button>
+      </li>
+    </ul>
+
+    <!-- DateTime Picker -->
+     <!-- DateTime Picker for Start Date -->
+    <input 
+      type="datetime-local" 
+      [(ngModel)]="newSurveyStartTime" 
+      [min]="minDate" 
+      placeholder="Sélectionner la date et l'heure de début" />
+
+    <input 
+      type="datetime-local" 
+      [(ngModel)]="newSurveyEndTime" 
+      [min]="minDate" 
+      placeholder="Sélectionner la date et l'heure de fin" />
+
+    <button (click)="createSurvey()" class="action-btn">Créer vote</button>
+  </div>
+
+  <div class="survey-list">
+    <h2>Votes Disponibles</h2>
+    <div *ngFor="let survey of surveys" class="survey-item">
+      <p>{{ survey.title }}</p>
+      <p>Début : {{ survey.start_date | date: 'short' }}</p>
+      <p>Fin : {{ survey.end_date | date: 'short' }}</p>
+      <button (click)="editSurvey(survey)" class="edit-btn">Modifier</button>
+      <button (click)="deleteSurvey(survey)" class="delete-btn">Supprimer</button>
     </div>
     
+  </div>
+</div>
   </div>
 </section>
 <router-outlet/>
