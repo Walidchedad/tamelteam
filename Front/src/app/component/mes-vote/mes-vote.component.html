@@ -1,0 +1,51 @@
+<div class="poll-container">
+    <div class="card">
+      <!-- Poll Details -->
+      <div *ngIf="poll">
+        <h1>{{ activeSurvey?.title }}</h1>
+  
+        <!-- Alert Message -->
+        <div *ngIf="alertMessage" [ngClass]="'alert ' + alertType">
+          {{ alertMessage }}
+        </div>
+  
+        <!-- Message for the creator -->
+        <div *ngIf="isCreator">
+          <p class="alert alert-warning">Vous êtes le créateur de ce sondage et ne pouvez pas voter.</p>
+        </div>
+  
+        <!-- Voting Options -->
+        <div *ngIf="!isCreator && !isPollExpired && activeSurvey">
+          <div class="voting-options">
+                <li *ngFor="let option of activeSurvey?.options">
+                  {{ option }}
+                </li>
+            <div class="percentage-bar-container" *ngFor="let option of activeSurvey?.options">
+              <div class="percentage-bar"
+                   [ngStyle]="{
+                     'width': pollStatistics[option]?.percentage + '%',
+                     'background-color': '#4CAF50'
+                   }">
+              </div>
+              <span>
+                {{option}}: {{ pollStatistics[option]?.percentage || 0 }}%
+              </span>
+            </div>
+                        
+          </div>
+          <p *ngIf="userVoted" class="alert alert-success">Vous avez déjà voté.</p>
+        </div>
+  
+        <!-- Poll Expired Message -->
+        <div *ngIf="isPollExpired">
+          <p class="alert alert-warning">Le sondage est terminé, vous ne pouvez plus voter.</p>
+        </div>
+      </div>
+  
+      <!-- Loading State -->
+      <div *ngIf="!poll">
+        <p>Loading poll details...</p>
+      </div>
+    </div>
+  </div>
+  

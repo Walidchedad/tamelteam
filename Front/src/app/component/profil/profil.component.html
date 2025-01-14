@@ -1,0 +1,19 @@
+<!-- Toggle Sidebar Button -->
+<button class="btn-toggle-sidebar" (click)="toggleSidebar()">☰</button>
+
+<!-- Sidebar -->
+<div class="sidebar" [ngClass]="{'show': sidebarVisible}">
+    <button class="btn-toggle-sidebar" (click)="toggleSidebar()">☰</button>
+  <div class="menu">
+    <a href="#" (click)="navigateTo('profile')">Profile</a>
+    <a href="#" (click)="navigateTo('update-info')">Changer Information</a>
+    <a href="#" (click)="navigateTo('change-password')">Changer Password</a>
+    <a href="#" (click)="navigateToMyPolls()">Mes Votes</a>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="content" [ngClass]="{'sidebar-open': sidebarVisible}">
+  <h1>Bienvenue</h1>
+  <p>Ceci est un exemple d'une page avec une sidebar élégante et fonctionnelle.</p>
+</div>

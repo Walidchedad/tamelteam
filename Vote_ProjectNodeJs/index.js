@@ -179,7 +179,7 @@ app.post('/polls/:id/vote', (req, res) => {
   }
 
   // Retrieve the survey details (title, type, creator_email, data_fin)
-  const surveyQuery = 'SELECT type, creator_email, data_fin FROM polls WHERE id = ?';
+  const surveyQuery = 'SELECT type, creator_email, data_fin, start_date FROM polls WHERE id = ?';
   db.query(surveyQuery, [surveyId], (err, surveyResult) => {
     if (err) {
       console.error('Error retrieving poll:', err);
@@ -193,12 +193,15 @@ app.post('/polls/:id/vote', (req, res) => {
     const surveyType = surveyResult[0].type;
     const creatorEmail = surveyResult[0].creator_email;  // Poll creator's email
     const pollEndDate = new Date(surveyResult[0].data_fin);  // Poll end date
-
+    const pollStartDate = new Date(surveyResult[0].start_date); // Poll start date
     // Check if the poll has expired (data_fin < current date)
     if (new Date() > pollEndDate) {
       return res.status(400).json({ message: 'The poll has ended. You can no longer vote.' });
     }
 
+    if (new Date() < pollStartDate) {
+      return res.status(400).json({ message: "The poll has not started yet. You can't vote now." });
+    }
     // Check if the user is the creator of the poll
     if (email === creatorEmail) {
       return res.status(400).json({ message: 'You cannot vote in your own poll.' });
@@ -306,6 +309,11 @@ app.get('/polls/:id/statistics', (req, res) => {
 
     const totalVotes = totalResult[0].totalVotes;
 
+    if (totalVotes === 0) {
+      // Return 0% for all options if no votes are recorded
+      return res.status(200).json({});
+    }
+
     // Get the vote count for each option
     const optionsVotesQuery = 'SELECT option, COUNT(*) AS voteCount FROM votes WHERE poll_id = ? GROUP BY option';
     db.query(optionsVotesQuery, [pollId], (err, optionsResult) => {
@@ -328,7 +336,77 @@ app.get('/polls/:id/statistics', (req, res) => {
     });
   });
 });
+// Route pour récupérer les sondages d'un utilisateur par email
+app.get('/polls/user/:email', (req, res) => {
+  const userEmail = req.params.email;
 
+  // Query pour récupérer tous les sondages créés par cet utilisateur
+  const query = 'SELECT * FROM polls WHERE creator_email = ?';
+  db.query(query, [userEmail], (err, result) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des sondages de l’utilisateur :', err);
+      return res.status(500).json({ message: 'Erreur serveur lors de la récupération des sondages.' });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Aucun sondage trouvé pour cet utilisateur.' });
+    }
+
+    res.status(200).json(result);
+  });
+});
+
+app.get('/polls/creator/:email', (req, res) => {
+  const creatorEmail = req.params.email;
+
+  // Requête pour récupérer les sondages créés par cet utilisateur
+  db.query('SELECT * FROM polls WHERE creator_email = ?', [creatorEmail], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).send({ message: 'Erreur lors de la récupération des sondages.' });
+    }
+    res.send(results);
+  });
+});
+
+app.get('/polls/:id/vote-counts', (req, res) => {
+  const pollId = req.params.id;
+
+  // Query to get the number of votes per option for the specified poll
+  const query = 'SELECT option, COUNT(*) AS voteCount FROM votes WHERE poll_id = ? GROUP BY option';
+  db.query(query, [pollId], (err, result) => {
+    if (err) {
+      console.error('Error retrieving vote counts:', err);
+      return res.status(500).json({ message: 'Error retrieving vote counts.' });
+    }
+
+    // Get the poll options from the polls table
+    const pollQuery = 'SELECT options FROM polls WHERE id = ?';
+    db.query(pollQuery, [pollId], (err, pollResult) => {
+      if (err) {
+        console.error('Error retrieving poll options:', err);
+        return res.status(500).json({ message: 'Error retrieving poll options.' });
+      }
+
+      // Parse the options from the database if stored as a JSON string
+      let options = [];
+      if (pollResult.length > 0) {
+        options = JSON.parse(pollResult[0].options);  // Assuming the options are stored as a JSON string
+      }
+
+      // Map the vote counts to the options
+      const voteCounts = options.map(option => {
+        const count = result.find(r => r.option === option);
+        return {
+          option: option,
+          voteCount: count ? count.voteCount : 0,
+        };
+      });
+
+      res.status(200).json(voteCounts);  // Send the formatted result
+    });
+  });
+});
 // Record a vote
 // Record a vote for a specific poll option
 

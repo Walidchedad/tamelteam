@@ -11,19 +11,16 @@
     class="search-bar"
     />
     <button (click)="searchPolls()" class="search-btn">Rechercher</button>
-   </div>
-  
-
-  <!-- Boutons de filtre -->
-  <div class="filter-dropdown" [class.show]="isFilterDropdownOpen">
-    <button (click)="toggleFilterDropdown()">Filtrer</button>
-    <div class="filter-buttons">
-      <button (click)="filterByStatus('all')">Tous</button>
-      <button (click)="filterByStatus('active')">Actifs</button>
-      <button (click)="filterByStatus('pending')">En attente</button>
-      <button (click)="filterByStatus('closed')">Close</button>
+    <div class="filter-dropdown" [class.show]="isFilterDropdownOpen" style="margin-left: 30px;">
+      <button (click)="toggleFilterDropdown()">Filtrer</button>
+      <div class="filter-buttons">
+        <button (click)="filterByStatus('all')">Tous</button>
+        <button (click)="filterByStatus('active')">Actifs</button>
+        <button (click)="filterByStatus('pending')">En attente</button>
+        <button (click)="filterByStatus('closed')">Close</button>
+      </div>
     </div>
-  </div>
+   </div>
 
   <!-- Liste des sondages filtrés -->
   <div *ngFor="let poll of filteredPolls" class="poll-item">

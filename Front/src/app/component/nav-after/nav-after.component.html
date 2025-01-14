@@ -12,10 +12,25 @@
                 <li>
                     <a [routerLink]="['/Voter']">Voter</a>
                 </li>
-                <li>
-                    <button id="Sign_butt" (click)="logout()">Déconnexion</button>
-                    <img src="" alt="icon">
+                <li class="profile-container" (mouseleave)="hideProfileMenu()">
+                  <img 
+                    class="profile-img" 
+                    src="avatar.png" 
+                    alt="icon" 
+                    (mouseenter)="showProfileMenu()" 
+                  />
+                  <div 
+                    class="profile-menu" 
+                    [ngClass]="{'show': profileMenuVisible}" 
+                    (mouseenter)="keepProfileMenu()" 
+                    (mouseleave)="hideProfileMenu()"
+                  >
+                    <button class="profile-button" (click)="goToProfile()">Mon Profil</button>
+                    <button class="profile-button" (click)="goToVotes()">Mes Votes</button>
+                    <button class="profile-button" (click)="logout()">Déconnexion</button>
+                  </div>
                 </li>
+                                  
             </ul>
         </nav>
     </div>

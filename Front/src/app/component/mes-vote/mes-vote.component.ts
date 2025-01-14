@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'app-poll-detail',
   standalone: true,
-  imports: [HttpClientModule, RouterOutlet, RouterModule, CommonModule],
-  templateUrl: './poll-detail.component.html',
-  styleUrls: ['./poll-detail.component.css'],
+  selector: 'app-mes-vote',
+  imports: [CommonModule, HttpClientModule],
+  templateUrl: './mes-vote.component.html',
+  styleUrls: ['./mes-vote.component.css']
 })
-export class PollDetailComponent implements OnInit {
+export class MesVoteComponent implements OnInit {
   poll: any = null; // Holds the poll details
   activeSurvey: any = null; // Tracks the active survey for voting
   voteMode: boolean = true; // Controls voting mode
@@ -34,6 +35,24 @@ export class PollDetailComponent implements OnInit {
       this.getPollStatistics(pollId);
     }
   }
+fetchUserPolls(): void {
+  const email = localStorage.getItem('email'); // Récupérer l'email de l'utilisateur connecté
+
+  if (!email) {
+    this.errorMessage = 'Veuillez vous connecter pour voir vos sondages.';
+    return;
+  }
+
+  this.http.get<any[]>(`http://localhost:3000/polls/creator/${email}`).subscribe(
+    (polls) => {
+      this.poll = polls; // Ici, polls est un tableau
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération des sondages :', error);
+      this.errorMessage = 'Erreur lors de la récupération des sondages.';
+    }
+  );
+}
 
   getPollStatistics(pollId: string): void {
     this.http.get(`http://localhost:3000/polls/${pollId}/statistics`).subscribe(

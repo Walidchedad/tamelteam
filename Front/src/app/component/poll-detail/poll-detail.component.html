@@ -26,13 +26,20 @@
           </button>
           <div class="percentage-bar-container" *ngFor="let option of activeSurvey?.options">
             <div class="percentage-bar"
+                 *ngIf="activeSurvey?.type === 'Sondage'"
                  [ngStyle]="{
                    'width': pollStatistics[option]?.percentage + '%',
                    'background-color': '#4CAF50'
                  }">
             </div>
-            <span>{{option}}: {{ pollStatistics[option]?.percentage || 0 }}%</span>
-          </div>              
+            <span *ngIf="activeSurvey?.type === 'Sondage'">
+              {{option}}: {{ pollStatistics[option]?.percentage || 0 }}%
+            </span>
+            <span *ngIf="activeSurvey?.type === 'Vote'">
+              {{option}}
+            </span>
+          </div>
+                      
         </div>
         <p *ngIf="userVoted" class="alert alert-success">Vous avez déjà voté.</p>
       </div>

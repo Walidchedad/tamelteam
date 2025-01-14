@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
+import { SharedService } from '../../shared/shared.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService,  // injecting the AuthService for authentication
+    private authService: AuthService,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit() {
@@ -56,28 +58,29 @@ export class LoginComponent {
   onSubmitLogin(): void {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      this.http
-        .post('http://localhost:3000/login', loginData)
-        .subscribe(
-          (response: any) => {
-            localStorage.setItem('email', response.email);
-            console.log('Login successful', response);
-            this.showAlert = true;
-            this.authService.setUser(response.firstName);
-            this.alertMessage = 'Login successful! Welcome back.';
-            setTimeout(() => {
-              this.showAlert = false;
-              this.router.navigate(['/Acc_after_login']); // Navigate to the new URL
-            }, 2000);
-          },
-          (error) => {
-            this.showAlert = true;
-            this.alertMessage = 'Login failed! Please try again.';
-            setTimeout(() => {
-              this.showAlert = false;
-            }, 2000);
-          }
-        );
+      this.http.post('http://localhost:3000/login', loginData).subscribe(
+        (response: any) => {
+          const email = response.email; // Récupérer l'email de la réponse
+          localStorage.setItem('email', email); // Optionnel : stocker dans localStorage
+          this.sharedService.setEmail(email); // Stocker l'email dans le service partagé
+          console.log('Login successful', response);
+
+          this.showAlert = true;
+          this.authService.setUser(response.firstName);
+          this.alertMessage = 'Login successful! Welcome back.';
+          setTimeout(() => {
+            this.showAlert = false;
+            this.router.navigate(['Acc_after_login']);
+          }, 2000);
+        },
+        (error) => {
+          this.showAlert = true;
+          this.alertMessage = 'Login failed! Please try again.';
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 2000);
+        }
+      );
     }
   }
 

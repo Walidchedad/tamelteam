@@ -98,3 +98,85 @@ nav ul li a:hover::after {
     width: 100%;
 }
 
+/* Style global pour le conteneur */
+.profile-container {
+    position: relative;
+  }
+  
+  /* Image de profil */
+  .profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .profile-img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.055);
+  }
+  
+  /* Menu déroulant */
+  .profile-menu {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.212); /* Couleur semi-transparente */
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 0;
+    width: 150px;
+    display: none; /* Masqué par défaut */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+    z-index: 10;
+  }
+  
+  .profile-menu.show {
+    display: block;
+  }
+  
+  /* Style des boutons du menu */
+  .profile-menu .profile-button {
+    background: transparent;
+    color: #ffffff;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: left;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .profile-menu .profile-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Effet survol */
+    color: #38b2ac; /* Accent color */
+  }
+  
+  /* Animation d'apparition */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation de disparition (si nécessaire) */
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+  
+

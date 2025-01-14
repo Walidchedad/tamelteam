@@ -7,6 +7,8 @@ import { NavAfterComponent } from './component/nav-after/nav-after.component';//
 import { AjSendComponent } from './component/aj-send/aj-send.component';
 import { PollListComponent } from './component/poll-list/poll-list.component';
 import { PollDetailComponent } from './component/poll-detail/poll-detail.component';
+import { ProfilComponent } from './component/profil/profil.component';
+import { MesVoteComponent } from './component/mes-vote/mes-vote.component';
 
 export const routes: Routes = [
     {path:'Login', component: LoginComponent},
@@ -22,5 +24,10 @@ export const routes: Routes = [
         {path:'Sendage',component:AjSendComponent},
         {path:'Voter',component:PollListComponent},
         {path:'poll-detail/:id',component:PollDetailComponent},
+        {path:'Profil',component:ProfilComponent, children:[
+        ]},
+        { path: 'mes-votes/:id', component: MesVoteComponent },
+        { path: 'mes-sondages/:id', component: MesVoteComponent }, // Route pour les sondages de l'utilisateur
+        { path: '**', redirectTo: '/mes-sondages' }
     ]}
 ];

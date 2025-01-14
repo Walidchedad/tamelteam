@@ -1,0 +1,285 @@
+/* Global style to center everything */
+.poll-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121212; /* Dark background */
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    color: #e0e0e0; /* Light text */
+  }
+  
+  /* The card */
+  .card {
+    background: #1e1e2f; /* Dark background for the card */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Subtle shadow */
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    animation: slideIn 0.8s ease-out;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Slide-in animation for the card */
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Header decoration */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #ff5722, #ff9800); /* Warm gradient */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  /* Title */
+  .card h1 {
+    font-size: 1.8rem;
+    color: #ffffff; /* White for contrast */
+    margin-bottom: 20px;
+  }
+  
+  /* Warning message for the creator */
+  .creator-warning {
+    color: #ff6b6b; /* Soft red */
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* Voting options */
+  .voting-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .voting-options button {
+    background: #3a3a4d; /* Dark button */
+    color: #ffffff;
+    font-size: 1rem;
+    border: 1px solid #5a5a6e; /* Subtle border */
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover effect for buttons */
+  .voting-options button:hover {
+    background: #55556e; /* Lighter on hover */
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Disabled button */
+  .voting-options button:disabled {
+    background: #4d4d5a; /* Disabled background */
+    color: #999; /* Gray text */
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  /* End voting button */
+  .action-btn {
+    background: #4caf50; /* Soft green */
+    color: #fff;
+    font-size: 1.1rem;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover effect for end voting button */
+  .action-btn:hover {
+    background: #388e3c; /* Darker green */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Loading state */
+  div[ngIf="!poll"] p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #888; /* Light gray text */
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* Pulse animation for loading text */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  /* Alert message styles */
+  .alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .alert-warning {
+    background-color: #f39c12;
+    color: white;
+    border: 2px solid #e67e22;
+  }
+  
+  .alert-success {
+    background-color: #2ecc71;
+    color: white;
+    border: 2px solid #27ae60;
+  }
+  
+  .alert-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: 2px solid #c0392b;
+  }
+  
+  /* Progress bar container */
+  .percentage-bar-container {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Container for the percentage bars */
+  .percentage-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* The percentage bar itself */
+  .percentage-bar {
+    height: 30px;
+    border-radius: 25px;
+    background-color: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+    width: 0%; /* Start at 0% and animate it */
+    transition: width 1s ease-out; /* Smooth transition for width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for 3D effect */
+  }
+  
+  /* Add a smooth animation effect */
+  .percentage-bar:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #4CAF50;
+    animation: fillBar 1s ease-out forwards; /* Animation for filling the bar */
+    transform: translateY(-50%);
+  }
+  
+  /* Animation for percentage filling */
+  @keyframes fillBar {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  /* Display the percentage text next to the bar */
+  .percentage-bar-container span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    padding-left: 10px;
+    position: relative;
+    z-index: 2; /* Ensure the text stays above the bar */
+    transition: color 0.3s ease; /* Transition effect for the text color */
+  }
+  
+  /* Hover effect on the container */
+  .percentage-bar-container:hover {
+    transform: scale(1.05); /* Slightly enlarge the container on hover */
+    background-color: rgba(0, 0, 0, 0.05); /* Slight background color change on hover */
+  }
+  
+  /* Hover effect on the bar */
+  .percentage-bar-container:hover .percentage-bar {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Increase shadow on hover */
+  }
+  
+  /* Make the text color more vibrant when the user hovers */
+  .percentage-bar-container:hover span {
+    color: #4CAF50; /* Change text color to match the bar */
+  }
+  
+  /* Adding smooth transition for updating percentage value */
+  .percentage-bar-container {
+    opacity: 1;
+    animation: fadeIn 0.5s ease-out forwards; /* Animation for appearing */
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  li {
+    background-color: #1E1E1E; /* Fond sombre des éléments */
+    color: #E0E0E0; /* Couleur du texte */
+    padding: 10px 15px; /* Espace interne */
+    margin-bottom: 10px; /* Espace entre les éléments */
+    border-radius: 5px; /* Coins arrondis */
+    border: 1px solid #333333; /* Bordure fine pour délimiter */
+    transition: background-color 0.3s, transform 0.2s; /* Animation pour le survol */
+    list-style-type: none; /* Supprime les puces par défaut */
+  }
+  
+  li:hover {
+    background-color: #333333; /* Changement de fond au survol */
+    transform: scale(1.02); /* Léger agrandissement au survol */
+    cursor: pointer; /* Indicateur interactif */
+  }
+  
+  li:active {
+    background-color: #FF5722; /* Couleur d'accent lorsqu'on clique */
+    color: #FFFFFF; /* Texte en blanc pour le contraste */
+  }
+  
